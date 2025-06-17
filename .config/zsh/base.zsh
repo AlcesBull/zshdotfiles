@@ -4,8 +4,8 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git
 
 # Format for the git part of the prompt
-zstyle ':vcs_info:git:*' formats '%F{magenta}%B %b%b%f'
-zstyle ':vcs_info:git:*' actionformats 'on  %b (%a)' # e.g., for rebase
+zstyle ':vcs_info:git:*' formats '%F{magenta}%B%b%f'
+zstyle ':vcs_info:git:*' actionformats 'on  %b (%a)' # e.g., for rebase
 
 # Function to get detailed git status icons
 get_git_status() {
