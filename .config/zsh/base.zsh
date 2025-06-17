@@ -14,7 +14,8 @@ get_git_status() {
   git_status=$(git status --porcelain=v1 2>/dev/null)
 
   if [[ -z "$git_status" ]]; then
-    PROMPT_GIT_STATUS=""
+    # Directory is clean, show a green checkmark
+    PROMPT_GIT_STATUS=" %F{green}✔%f"
     return
   fi
 
@@ -70,7 +71,7 @@ precmd() {
 
   # Define the prompt inside precmd to re-evaluate it every time
   PROMPT="%F{blue}%B${prompt_path}%b%f %F{cyan} on%f ${vcs_info_msg_0_}${PROMPT_GIT_STATUS}
-%F{bold green}➜%f "
+%B%F{green}➜%b%f "
 }
 
 # Make sure prompt substitutions are on
