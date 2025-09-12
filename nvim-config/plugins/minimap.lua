@@ -87,8 +87,7 @@ codewindow.setup({
 })
 
 -- Keymaps for minimap
-vim.keymap.set("n", "<leader>mm", codewindow.toggle_minimap, { desc = "Toggle minimap" })
-vim.keymap.set("n", "<leader>mf", codewindow.toggle_minimap_focus, { desc = "Toggle minimap focus" })
-vim.keymap.set("n", "<leader>mc", codewindow.toggle_minimap_cursor, { desc = "Toggle minimap cursor" })
-vim.keymap.set("n", "<leader>ml", codewindow.toggle_minimap_line_number, { desc = "Toggle minimap line number" })
-vim.keymap.set("n", "<leader>mb", codewindow.toggle_minimap_border, { desc = "Toggle minimap border" })
+vim.keymap.set("n", "<leader>mm", function()
+  local codewindow = require('codewindow')
+  codewindow.toggle_minimap()
+end, { desc = "Toggle minimap" })

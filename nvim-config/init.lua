@@ -15,12 +15,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Set up package path for our modules
+local config_dir = vim.fn.stdpath("config")
+package.path = package.path .. ";" .. config_dir .. "/?.lua;" .. config_dir .. "/?/init.lua"
+
 -- Configure Lazy.nvim
-require("lazy").setup({
-  spec = {
-    -- Import all plugin specs
-    { import = "plugins.init" },
-  },
+local plugins = require("plugins")
+require("lazy").setup(plugins, {
   defaults = {
     lazy = false, -- plugins are loaded immediately
     version = "*", -- try installing the latest stable version
