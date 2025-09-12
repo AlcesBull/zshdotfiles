@@ -1,9 +1,10 @@
-# Zsh Dotfiles
+# Zsh & Neovim Dotfiles
 
-A clean, portable zsh configuration with no external dependencies (except optional enhancements).
+A clean, portable zsh configuration with no external dependencies (except optional enhancements), plus a high-quality Neovim setup with minimap and QOL features.
 
 ## Features
 
+### Zsh Configuration
 - **Git-aware prompt** with status indicators (✔, ✘, !, ?)
 - **Better history management** with 10,000 entries
 - **Useful aliases** for common commands
@@ -11,9 +12,24 @@ A clean, portable zsh configuration with no external dependencies (except option
 - **Modular configuration** structure
 - **Optional terminal enhancements** via Homebrew
 
+### Neovim Configuration
+- **Minimap** with codewindow.nvim for code overview
+- **Lazy.nvim** plugin manager for fast startup
+- **Tokyo Night** colorscheme
+- **Telescope** fuzzy finder for files, buffers, and more
+- **Treesitter** syntax highlighting and parsing
+- **LSP** support with auto-completion
+- **Git integration** with gitsigns
+- **File explorer** with nvim-tree
+- **Status line** with lualine
+- **Buffer management** with bufferline
+- **Auto-pairs** and smart commenting
+
 ## Quick Setup
 
-1. **Install the configuration:**
+### Zsh Configuration
+
+1. **Install the zsh configuration:**
    ```bash
    ./install.sh
    ```
@@ -27,6 +43,25 @@ A clean, portable zsh configuration with no external dependencies (except option
    ```bash
    setup-terminal
    ```
+
+### Neovim Configuration
+
+1. **Install Neovim (if not already installed):**
+   ```bash
+   brew install neovim
+   ```
+
+2. **Install the Neovim configuration:**
+   ```bash
+   ./install-nvim.sh
+   ```
+
+3. **Open Neovim and wait for plugins to install:**
+   ```bash
+   nvim
+   ```
+
+4. **Restart Neovim to ensure everything is loaded properly**
 
 ## What's Included
 
@@ -58,6 +93,36 @@ A clean, portable zsh configuration with no external dependencies (except option
   - ? Untracked files
 - Smart path display (shows repo name + relative path)
 
+### Neovim Key Mappings
+
+**Leader key:** `<space>` (most mappings start with `<leader>`)
+
+- `<leader>mm` - Toggle minimap
+- `<leader>ff` - Find files
+- `<leader>fg` - Live grep
+- `<leader>fb` - Find buffers
+- `<leader>e` - Toggle file explorer
+- `<leader>f` - Format code
+- `<leader>ca` - Code actions
+- `<leader>rn` - Rename symbol
+- `<leader>d` - Show diagnostics
+- `<leader>h` - Clear search highlighting
+
+**Navigation:**
+- `<C-h/j/k/l>` - Navigate between windows
+- `<C-Up/Down/Left/Right>` - Resize windows
+- `<A-j/k>` - Move lines up/down
+- `]d/[d` - Next/previous diagnostic
+- `]q/[q` - Next/previous quickfix
+- `]l/[l` - Next/previous location
+
+**General:**
+- `jk` or `kj` - Escape from insert mode
+- `<leader>w` - Save file
+- `<leader>q` - Quit
+- `<leader>x` - Save and quit
+- `<leader>t` - Open terminal
+
 ## Optional Enhancements
 
 The `setup-terminal` command installs:
@@ -72,11 +137,27 @@ The `setup-terminal` command installs:
 ## File Structure
 
 ```
-.zshrc                    # Main configuration
+.zshrc                    # Main zsh configuration
 .config/
   zsh/
     base.zsh             # Git prompt and additional config
-install.sh               # Installation script
+nvim-config/              # Neovim configuration
+  init.lua               # Main Neovim config
+  core/                  # Core settings
+    options.lua          # Neovim options
+    keymaps.lua          # Key mappings
+    autocmds.lua         # Auto commands
+  plugins/               # Plugin configurations
+    init.lua             # Plugin specifications
+    minimap.lua          # Minimap config
+    telescope.lua        # Telescope config
+    treesitter.lua       # Treesitter config
+    lsp/                 # LSP configurations
+    ui/                  # UI plugin configs
+    editing/             # Editing plugin configs
+    git/                 # Git plugin configs
+install.sh               # Zsh installation script
+install-nvim.sh          # Neovim installation script
 ```
 
 ## Customization
@@ -92,6 +173,8 @@ The installation script automatically backs up your existing `.zshrc` to `.zshrc
 - zsh shell
 - macOS (for Homebrew-based enhancements)
 - Git (for git-aware features)
+- Neovim 0.8+ (for Neovim configuration)
+- Homebrew (for installing Neovim)
 
 ## License
 
