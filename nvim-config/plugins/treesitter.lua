@@ -1,10 +1,24 @@
 -- Treesitter Configuration
 -- Syntax highlighting and parsing
 
+-- Register zsh parser (community grammar, not in default nvim-treesitter)
+-- Must be set before setup so auto_install can find it when opening .zsh files
+require("nvim-treesitter.parsers").zsh = {
+  install_info = {
+    url = "https://github.com/georgeharker/tree-sitter-zsh",
+    files = { "src/parser.c", "src/scanner.c" },
+    branch = "main",
+    generate_from_json = false,
+    queries = "nvim-queries",
+  },
+  tier = 3,
+}
+
 require("nvim-treesitter.configs").setup({
   -- A list of parser names, or "all"
   ensure_installed = {
     "bash",
+    "zsh",
     "c",
     "cpp",
     "css",
@@ -24,7 +38,6 @@ require("nvim-treesitter.configs").setup({
     "vim",
     "vimdoc",
     "yaml",
-    "zsh",
   },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)

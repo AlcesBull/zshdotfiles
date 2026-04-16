@@ -197,6 +197,17 @@ return {
     end,
   },
 
+  -- Sourcegraph Amp integration
+  {
+    "sourcegraph/amp.nvim",
+    branch = "main",
+    lazy = false,
+    opts = {
+      auto_start = true,
+      log_level = "info",
+    },
+  },
+
   -- Toggle term
   {
     "akinsho/toggleterm.nvim",
