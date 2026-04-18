@@ -19,27 +19,28 @@ require("which-key").setup({
       g = true,
     },
   },
-  operators = { gc = "Comments" },
-  key_labels = {
-    ["<space>"] = "SPC",
-    ["<cr>"] = "RET",
-    ["<tab>"] = "TAB",
+  replace = {
+    key = {
+      { "<space>", "SPC" },
+      { "<cr>", "RET" },
+      { "<tab>", "TAB" },
+    },
   },
   icons = {
     breadcrumb = "»",
     separator = "➜",
     group = "+",
   },
-  popup_mappings = {
+  keys = {
     scroll_down = "<c-d>",
     scroll_up = "<c-u>",
   },
-  window = {
+  win = {
     border = "rounded",
-    position = "bottom",
-    margin = { 1, 0, 1, 0 },
     padding = { 2, 2, 2, 2 },
-    winblend = 0,
+    wo = {
+      winblend = 0,
+    },
   },
   layout = {
     height = { min = 4, max = 25 },
@@ -47,12 +48,14 @@ require("which-key").setup({
     spacing = 3,
     align = "left",
   },
-  ignore_missing = true,
-  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
+  filter = function(mapping)
+    return true
+  end,
   show_help = true,
-  triggers = "auto",
-  triggers_blacklist = {
-    i = { "j", "k" },
-    v = { "j", "k" },
+  triggers = {
+    { "<auto>", mode = "nxso" },
   },
+  defer = function(ctx)
+    return ctx.mode == "V" or ctx.mode == "<C-V>"
+  end,
 })
