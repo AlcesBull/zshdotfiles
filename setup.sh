@@ -61,6 +61,8 @@ tools=(
     "ripgrep"       # Faster grep
     "zsh-autosuggestions"  # Command suggestions
     "zsh-syntax-highlighting"  # Syntax highlighting
+    "awscli"        # AWS command-line interface
+    "1password-cli" # 1Password CLI (op)
 )
 
 for tool in "${tools[@]}"; do
@@ -109,16 +111,19 @@ cp -r "$SCRIPT_DIR/nvim-config" "$HOME/.config/nvim"
 find "$HOME/.config/nvim" -type f -name "*.lua" -exec chmod 644 {} \;
 echo "   ✅ Neovim configuration installed"
 
-# Step 6: Update zshrc to fix cat alias
+# Step 6: Ensure the bat-based cat/less aliases are guarded so they don't
+# break the shell when bat is missing.
 echo ""
-echo "🔧 Step 6: Updating .zshrc to fix cat alias..."
-if grep -q "alias cat='bat --style=plain'" ~/.zshrc; then
-    # Replace the unconditional alias with a conditional one
+echo "🔧 Step 6: Checking .zshrc cat/less alias guard..."
+if grep -q "command -v bat" ~/.zshrc; then
+    echo "   ✅ .zshrc already guards cat/less behind a bat check"
+elif grep -q "alias cat='bat --style=plain'" ~/.zshrc; then
+    # Wrap the legacy unconditional aliases in a bat-existence check
     sed -i.bak "s/alias cat='bat --style=plain'/if command -v bat \&> \/dev\/null; then\n  alias cat='bat --style=plain'\nfi/" ~/.zshrc
     sed -i.bak "s/alias less='bat --paging=always'/  alias less='bat --paging=always'\nfi/" ~/.zshrc
     echo "   ✅ .zshrc updated"
 else
-    echo "   ✅ .zshrc already has conditional aliases"
+    echo "   ✅ No bat aliases found to guard"
 fi
 
 echo ""

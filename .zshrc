@@ -1,6 +1,12 @@
 # Clean, portable Zsh configuration
 # No Nix dependencies
 
+# Ensure a UTF-8 locale so multibyte prompt glyphs (Powerline/Nerd Font)
+# render instead of erroring with "character not in range".
+if [[ -z "$LANG" && -z "$LC_ALL" ]]; then
+  export LANG="en_US.UTF-8"
+fi
+
 # History configuration
 HISTSIZE="10000"
 SAVEHIST="10000"
@@ -36,9 +42,12 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 
-# Better alternatives (install via brew)
-alias cat='bat --style=plain'  # Use bat instead of cat
-alias less='bat --paging=always'  # Use bat as a pager
+# Better alternatives (install via brew). Only override cat/less if bat exists,
+# otherwise the shell loses working cat/less commands.
+if command -v bat &> /dev/null; then
+  alias cat='bat --style=plain'  # Use bat instead of cat
+  alias less='bat --paging=always'  # Use bat as a pager
+fi
 
 # Git aliases with better output
 alias glog='git log --oneline --graph --color=always'
