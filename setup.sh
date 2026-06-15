@@ -111,10 +111,71 @@ cp -r "$SCRIPT_DIR/nvim-config" "$HOME/.config/nvim"
 find "$HOME/.config/nvim" -type f -name "*.lua" -exec chmod 644 {} \;
 echo "   ✅ Neovim configuration installed"
 
-# Step 6: Ensure the bat-based cat/less aliases are guarded so they don't
+# Step 6: Install a Nerd Font and point Terminal.app at it. This is what makes
+# the Powerline prompt separators and Neovim file icons render (otherwise they
+# show as empty boxes).
+echo ""
+echo "🔤 Step 6: Installing Nerd Font and configuring Terminal.app..."
+if brew list --cask font-meslo-lg-nerd-font &> /dev/null 2>&1; then
+    echo "   ✅ MesloLGS Nerd Font already installed"
+else
+    echo "   📦 Installing MesloLGS Nerd Font..."
+    brew install --cask font-meslo-lg-nerd-font || echo "   ⚠️  Failed to install font"
+fi
+
+# Point Terminal.app's default + startup profiles at the Nerd Font via
+# AppleScript. Skipped gracefully on non-macOS or if Terminal isn't scriptable.
+if [[ "$(uname)" == "Darwin" ]]; then
+    if osascript <<'OSA' &> /dev/null
+tell application "Terminal"
+    set font name of default settings to "MesloLGSNF-Regular"
+    set font name of startup settings to "MesloLGSNF-Regular"
+end tell
+OSA
+    then
+        echo "   ✅ Terminal.app font set to MesloLGS Nerd Font (open a new window to see it)"
+    else
+        echo "   ⚠️  Could not set Terminal.app font automatically."
+        echo "      Set it manually: Terminal → Settings → Profiles → Font → MesloLGS Nerd Font"
+    fi
+fi
+
+# Step 7: Install Node.js and the global CLIs that depend on it.
+echo ""
+echo "📦 Step 7: Installing Node.js and developer CLIs..."
+if command -v node &> /dev/null; then
+    echo "   ✅ Node already installed: $(node --version)"
+else
+    echo "   📦 Installing Node..."
+    brew install node || echo "   ⚠️  Failed to install node"
+fi
+
+if command -v npm &> /dev/null; then
+    npm_clis=(
+        "@sourcegraph/amp"   # Amp CLI (agentic coding; pairs with amp.nvim)
+        "@controlplane/cli"  # Control Plane CLI (cpln)
+    )
+    for pkg in "${npm_clis[@]}"; do
+        echo "   📦 Installing $pkg ..."
+        npm install -g "$pkg" || echo "   ⚠️  Failed to install $pkg"
+    done
+
+    # Amp companion plugin: lets Amp read Neovim LSP diagnostics. Only present
+    # after amp.nvim has been fetched (first nvim launch / Lazy sync).
+    amp_companion="$HOME/.local/share/nvim/lazy/amp.nvim/plugin/amp-neovim-diagnostics.ts"
+    if [[ -f "$amp_companion" ]]; then
+        mkdir -p "$HOME/.config/amp/plugins"
+        cp "$amp_companion" "$HOME/.config/amp/plugins/"
+        echo "   ✅ Amp Neovim diagnostics companion installed"
+    fi
+else
+    echo "   ⚠️  npm not available, skipping Amp / Control Plane CLIs"
+fi
+
+# Step 8: Ensure the bat-based cat/less aliases are guarded so they don't
 # break the shell when bat is missing.
 echo ""
-echo "🔧 Step 6: Checking .zshrc cat/less alias guard..."
+echo "🔧 Step 8: Checking .zshrc cat/less alias guard..."
 if grep -q "command -v bat" ~/.zshrc; then
     echo "   ✅ .zshrc already guards cat/less behind a bat check"
 elif grep -q "alias cat='bat --style=plain'" ~/.zshrc; then
@@ -137,8 +198,11 @@ echo "4. Wait for Lazy.nvim to install all plugins (this may take a few minutes)
 echo "5. Restart Neovim to ensure everything is loaded properly"
 echo ""
 echo "💡 Your setup now includes:"
-echo "   ✅ Terminal enhancement tools (bat, jq, git-delta, etc.)"
+echo "   ✅ Terminal enhancement tools (bat, jq, git-delta, glow, ripgrep)"
 echo "   ✅ Zsh autosuggestions and syntax highlighting"
+echo "   ✅ AWS CLI, 1Password CLI (op)"
+echo "   ✅ Node.js + Amp CLI and Control Plane CLI (cpln)"
+echo "   ✅ MesloLGS Nerd Font + Terminal.app configured to use it"
 echo "   ✅ Neovim with full configuration"
 echo "   ✅ Fixed cat command (works even without bat)"
 echo ""
