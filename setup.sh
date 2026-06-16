@@ -172,10 +172,31 @@ else
     echo "   ⚠️  npm not available, skipping Amp / Control Plane CLIs"
 fi
 
-# Step 8: Ensure the bat-based cat/less aliases are guarded so they don't
+# Step 8: Install the iTerm2 "Tokyo Night" dynamic profile (Nerd Font + colors)
+# and set it as the default. Dynamic profiles load live, but the default-profile
+# GUID is only read on a fresh iTerm launch, so we set it when iTerm isn't running.
+echo ""
+echo "🎨 Step 8: Installing iTerm2 Tokyo Night profile..."
+if [[ "$(uname)" == "Darwin" && -f "$SCRIPT_DIR/iterm2/TokyoNight.json" ]]; then
+    iterm_dest="$HOME/Library/Application Support/iTerm2/DynamicProfiles"
+    mkdir -p "$iterm_dest"
+    cp "$SCRIPT_DIR/iterm2/TokyoNight.json" "$iterm_dest/"
+    echo "   ✅ Dynamic profile installed"
+    if pgrep -x iTerm2 &> /dev/null; then
+        echo "   ℹ️  iTerm2 is running — set 'Tokyo Night' as default in Settings → Profiles,"
+        echo "      or quit iTerm2 and re-run this script to set it automatically."
+    else
+        defaults write com.googlecode.iterm2 "Default Bookmark Guid" -string "TOKYONIGHT-KNOXLANE-0001"
+        echo "   ✅ Set Tokyo Night as the default iTerm2 profile"
+    fi
+else
+    echo "   ⏭️  Skipped (not macOS or profile file missing)"
+fi
+
+# Step 9: Ensure the bat-based cat/less aliases are guarded so they don't
 # break the shell when bat is missing.
 echo ""
-echo "🔧 Step 8: Checking .zshrc cat/less alias guard..."
+echo "🔧 Step 9: Checking .zshrc cat/less alias guard..."
 if grep -q "command -v bat" ~/.zshrc; then
     echo "   ✅ .zshrc already guards cat/less behind a bat check"
 elif grep -q "alias cat='bat --style=plain'" ~/.zshrc; then
@@ -202,7 +223,8 @@ echo "   ✅ Terminal enhancement tools (bat, jq, git-delta, glow, ripgrep)"
 echo "   ✅ Zsh autosuggestions and syntax highlighting"
 echo "   ✅ AWS CLI, 1Password CLI (op)"
 echo "   ✅ Node.js + Amp CLI and Control Plane CLI (cpln)"
-echo "   ✅ MesloLGS Nerd Font + Terminal.app configured to use it"
+echo "   ✅ MesloLGS Nerd Font (Terminal.app + iTerm2 configured to use it)"
+echo "   ✅ iTerm2 'Tokyo Night' profile (matches the nvim colorscheme)"
 echo "   ✅ Neovim with full configuration"
 echo "   ✅ Fixed cat command (works even without bat)"
 echo ""
