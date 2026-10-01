@@ -101,12 +101,16 @@ A clean, portable zsh configuration with no external dependencies (except option
 - `<leader>ff` - Find files
 - `<leader>fg` - Live grep
 - `<leader>fb` - Find buffers
+- `<leader>fo` - Recent files
+- `<leader>fr` - LSP references
 - `<leader>e` - Toggle file explorer
-- `<leader>f` - Format code
+- `<leader>cf` - Format code
 - `<leader>ca` - Code actions
 - `<leader>rn` - Rename symbol
 - `<leader>d` - Show diagnostics
 - `<leader>h` - Clear search highlighting
+- `<leader>sr` - Replace word under cursor
+- `<leader>tr` - Toggle relative line numbers
 
 **Navigation:**
 - `<C-h/j/k/l>` - Navigate between windows
@@ -120,8 +124,10 @@ A clean, portable zsh configuration with no external dependencies (except option
 - `jk` or `kj` - Escape from insert mode
 - `<leader>w` - Save file
 - `<leader>q` - Quit
-- `<leader>x` - Save and quit
-- `<leader>t` - Open terminal
+- `<leader>wq` - Save and quit
+- `<leader>tt` - Toggle floating terminal
+- `<leader>to` - Open built-in terminal
+- `<leader>o` - Open a file by path
 
 ## Optional Enhancements
 
@@ -178,4 +184,4 @@ The installation script automatically backs up your existing `.zshrc` to `.zshrc
 
 ## License
 
-See [LICENSE](LICENSE) file for details. 
+See [LICENSE](LICENSE) file for details.

@@ -1,6 +1,10 @@
 -- Neovim Configuration
 -- High-quality setup with minimap and QOL features
 
+-- Set the leader before plugins load so their <leader> mappings use Space.
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- Bootstrap Lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

@@ -40,7 +40,7 @@ keymap("n", "<leader>h", ":nohlsearch<CR>", opts)
 -- Save and quit
 keymap("n", "<leader>w", ":w<CR>", opts)
 keymap("n", "<leader>q", ":q<CR>", opts)
-keymap("n", "<leader>x", ":x<CR>", opts)
+keymap("n", "<leader>wq", ":x<CR>", opts)
 
 -- Buffer navigation
 keymap("n", "<leader>bn", ":bnext<CR>", opts)
@@ -48,11 +48,10 @@ keymap("n", "<leader>bp", ":bprevious<CR>", opts)
 keymap("n", "<leader>bd", ":bdelete<CR>", opts)
 
 -- Quick access to common commands
-keymap("n", "<leader>e", ":e ", opts)
-keymap("n", "<leader>E", ":Explore<CR>", opts)
+keymap("n", "<leader>o", ":e ", opts)
 
 -- Terminal
-keymap("n", "<leader>t", ":terminal<CR>", opts)
+keymap("n", "<leader>to", ":terminal<CR>", opts)
 keymap("t", "<ESC>", "<C-\\><C-n>", opts)
 
 -- Toggle options
@@ -74,10 +73,6 @@ keymap("n", "N", "Nzzzv", opts)
 keymap("n", "G", "Gzz", opts)
 keymap("n", "gg", "ggzz", opts)
 
--- Stay in visual mode after indenting
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
-
 -- Move text up and down
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
 keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
@@ -86,12 +81,7 @@ keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
 keymap("n", "Y", "y$", opts)
 
 -- Replace word under cursor
-keymap("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", opts)
-
--- Format code
-keymap("n", "<leader>f", function()
-  vim.lsp.buf.format({ async = true })
-end, opts)
+keymap("n", "<leader>sr", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", opts)
 
 -- Diagnostic navigation
 keymap("n", "]d", vim.diagnostic.goto_next, opts)
